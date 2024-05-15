@@ -12,18 +12,46 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full dark:text-black" %>
+    <%= form.label :model, "Model", class: "block text-gray-800 font-bold whitespace-nowrap" %>
+    <%= form.select :model, options_for_select(AIBackends::OpenRouter.model_options, selected: assistant.model), {},
+                  class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full dark:text-black pr-8" %>
+    <% if assistant.open_router? %>
+      <details class="p-1 text-gray-500">
+        <summary>Details</summary>
+        <div class="flex flex-col items-start gap-1 p-1 text-sm w-full">
+          <div>
+            <span class="font-medium">Architecture:</span>
+            <span><%= AIBackends::OpenRouter.models(assistant.model).dig("architecture") %></span>
+          </div>
+          <div>
+            <span class="font-medium">Context Length:</span>
+            <span><%= AIBackends::OpenRouter.models(assistant.model).dig("context_length") %></span>
+          </div>
+          <div>
+            <span class="font-medium">Pricing (per token):</span>
+            <span><%= AIBackends::OpenRouter.models(assistant.model).dig("pricing") %></span>
+          </div>
+        </div>
+      </details>
+    <% end %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :description %>
-    <%= form.text_field :description, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full dark:text-black" %>
-  </div>
+
+  <% unless assistant.new_record? %>
+    <div class="my-5">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full dark:text-black" %>
+    </div>
+
+    <div class="my-5">
+      <%= form.label :description %>
+      <%= form.text_area :description, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full dark:text-black", rows: 5 %>
+    </div>
+  <% end %>
 
   <div class="my-5">
     <%= form.label :instructions %>
-    <%= form.text_area :instructions,
+    <%= form.text_area :instructions, rows: 10,
       class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full dark:text-black h-18",
       data: { controller: "textarea-autogrow" }
     %>

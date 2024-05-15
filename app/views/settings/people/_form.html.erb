@@ -36,6 +36,51 @@
     </div>
 
     <div class="my-5" data-controller="transition" data-transition-toggle-class="hidden">
+      <%= user_fields.label :openrouter_key, "OpenRouter Key" %>
+      <%= button_tag type: "button",
+        id: "how-openrouter",
+        class: "underline text-blue-600",
+        data: {
+          transition_target: "transitionable",
+          action: "transition#toggleClass",
+        } do
+        %>How do I get?
+      <% end %>
+      <ol id="openrouter-instructions"
+          data-transition-target="transitionable"
+          class="
+            list-decimal
+            my-3 p-2 pl-8
+            border border-gray-200
+            bg-gray-50 dark:bg-transparent
+            hidden
+          "
+      >
+        <li>Visit the OpenRouter
+          <%= link_to "website", "https://openrouter.ai/",
+            class: "underline text-blue-600",
+            target: "_blank"
+          %> and create an account.
+        </li>
+        <li>Click "Keys" in the user dropdown menu (or
+          <%= link_to "take me to API Keys", "https://openrouter.ai/keys",
+            class: "underline text-blue-600",
+            target: "_blank"
+          %>).</li>
+        <li>Click "Create Key" button, name it something like "HostedGPT" and paste it below.</li>
+        <li>If you want to use non-free models ensure you have billing set up by clicking "Credits" (or
+          <%= link_to "take me to Credits", "https://openrouter.ai/credits",
+            class: "underline text-blue-600",
+            target: "_blank"
+          %>).</li>
+      </ol>
+      <%= user_fields.text_field :openrouter_key,
+        class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full dark:text-black",
+        placeholder: "OpenRouter Key"
+      %>
+    </div>
+
+    <div class="my-5" data-controller="transition" data-transition-toggle-class="hidden">
       <%= user_fields.label :openai_key, "OpenAI Key (for GPT-3.5 & 4)" %>
       <%= button_tag type: "button",
         id: "how-openai",

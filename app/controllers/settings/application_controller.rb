@@ -9,9 +9,9 @@ class Settings::ApplicationController < ApplicationController
     @settings_menu = {
       assistants: Current.user.assistants.ordered.map {
         |assistant| [ assistant, edit_settings_assistant_path(assistant) ]
-      }.to_h.merge({
-        #'New Assistant': new_settings_assistant_path(assistant)
-      }),
+      }.to_h.tap do |menu|
+        menu.merge!({'New Assistant': new_settings_assistant_path}) if Current.user.openrouter_key.present?
+      end,
 
       people: {
         'Account': edit_settings_person_path

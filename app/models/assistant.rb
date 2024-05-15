@@ -11,6 +11,8 @@ class Assistant < ApplicationRecord
 
   scope :ordered, -> { order(:id) }
 
+  before_save :update_name_and_description, if: :model_changed?
+
   def initials
     return nil if name.blank?
 
@@ -20,7 +22,23 @@ class Assistant < ApplicationRecord
       parts[1]&.try(:[], 0)&.capitalize.to_s
   end
 
+  def open_router?
+    model&.include?("/")
+  end
+
   def to_s
     name
   end
+
+  private
+
+  def update_name_and_description
+    return if user.openai_key.blank?
+    return unless open_router?
+
+    model_data = AIBackends::OpenRouter.models(model)
+    self.name = model_data["name"]
+    self.description = model_data["description"]
+  end
+
 end

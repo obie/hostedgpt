@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_14_184146) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_14_221003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -295,6 +295,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_184146) do
     t.string "anthropic_key"
     t.jsonb "preferences"
     t.bigint "last_cancelled_message_id"
+    t.string "openrouter_key"
     t.index ["last_cancelled_message_id"], name: "index_users_on_last_cancelled_message_id"
   end
 
